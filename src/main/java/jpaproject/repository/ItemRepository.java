@@ -1,9 +1,11 @@
 package jpaproject.repository;
 
 import jakarta.persistence.EntityManager;
+import jpaproject.domain.item.Book;
 import jpaproject.domain.item.Item;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
