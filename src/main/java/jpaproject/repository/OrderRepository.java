@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.*;
 import jpaproject.domain.Member;
 import jpaproject.domain.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class OrderRepository {
 
     private final EntityManager em;
+    private final ListableBeanFactory listableBeanFactory;
 
     public void save(Order order) {
         em.persist(order);
@@ -65,6 +67,14 @@ public class OrderRepository {
         }
 
         return query.getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .getResultList();
     }
 
 //    public List<Order> findAllByCriteria(OrderSearch orderSearch) {
