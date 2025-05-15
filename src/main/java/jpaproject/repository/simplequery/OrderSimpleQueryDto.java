@@ -1,4 +1,4 @@
-package jpaproject.repository;
+package jpaproject.repository.simplequery;
 
 import jpaproject.domain.Address;
 import jpaproject.domain.OrderStatus;

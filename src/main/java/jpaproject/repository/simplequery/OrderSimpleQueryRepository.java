@@ -1,4 +1,4 @@
-package jpaproject.repository;
+package jpaproject.repository.simplequery;
 
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

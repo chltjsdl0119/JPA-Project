@@ -5,8 +5,8 @@ import jpaproject.domain.Order;
 import jpaproject.domain.OrderStatus;
 import jpaproject.repository.OrderRepository;
 import jpaproject.repository.OrderSearch;
-import jpaproject.repository.OrderSimpleQueryDto;
-import jpaproject.repository.OrderSimpleQueryRepository;
+import jpaproject.repository.simplequery.OrderSimpleQueryDto;
+import jpaproject.repository.simplequery.OrderSimpleQueryRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public class OrderSimpleApiController {
      */
     @GetMapping("/api/v1/simple-orders")
     public List<Order> orderV1() {
-        List<Order> all = orderRepository.findAll(new OrderSearch());
+        List<Order> all = orderRepository.findAllByString(new OrderSearch());
         for (Order order : all) {
             order.getMember().getName(); //Lazy 강제 초기화
             order.getDelivery().getAddress(); //Lazy 강제 초기환
@@ -51,7 +51,7 @@ public class OrderSimpleApiController {
      */
     @GetMapping("/api/v2/simple-orders")
     public List<SimpleOrderDto> ordersV2() {
-        List<Order> orders = orderRepository.findAll(new OrderSearch());
+        List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
         // N + 1 문제 발생
         List<SimpleOrderDto> result = orders.stream()
@@ -66,7 +66,7 @@ public class OrderSimpleApiController {
      * - fetch join으로 쿼리 1번 호출
      * 참고: fetch join에 대한 자세한 내용은 JPA 기본편 참고(정말 중요함)
      */
-    @GetMapping("/api/v3/orders")
+    @GetMapping("/api/v3/simple-orders")
     public List<SimpleOrderDto> ordersV3() {
         List<Order> orders = orderRepository.findAllWithMemberDelivery();
         List<SimpleOrderDto> result = orders.stream()
